@@ -3,8 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <title>OyuncakStore</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+
+  
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -23,56 +28,294 @@
     }
 
     .main-header {
-      background-color: white;
+      background-color: #252b32;
       padding: 10px 20px;
       border-bottom: 1px solid #ddd;
     }
 
-    .main-header .logo img {
-      height: 60px;
-    }
+    .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Logo en solda, menu ortada, user-info en sağda */
+  gap: 40px;
+  padding-left: 0;    /* Soldaki boşluğu kaldır */
+  padding-right: 0;   /* Sağdaki boşluğu kaldır */
+  margin: 0 auto;     /* Ortalamak için */
+  max-width: 1200px;  /* Maksimum genişlik */
+  width: 100%;        /* Tam genişlik */
+}
+
+/* Logo sola yaslanacak, sağdan ekstra boşluk kaldırıldı */
+.logo {
+  margin-left: 0;
+  flex-shrink: 0;    /* Logo küçülmesin */
+}
+.logo img {
+  height: 150px;
+  width: auto;
+  display: block;
+}
+
+/* Menü ortada ve esneyip büyüsün */
+.menu-links {
+  display: flex;
+  gap: 30px;
+  flex-grow: 1;             /* Menü alanı mümkün olduğunca büyüsün */
+  justify-content: center;  /* Menü linkleri ortalansın */
+}
+
+/* Menü linkleri stilleri */
+.nav-link {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 10px 15px;
+  white-space: nowrap;     /* Satır kaymasını engelle */
+  transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: #ff5722;
+}
+
+/* Oturum aç ve telefon sağda hizalı */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  white-space: nowrap;  /* Satır kaymasını engelle */
+}
+
+.user-info a,
+.user-info span {
+  color: white;
+  font-weight: 600;
+}
+
+/* Responsive: mobilde alt alta ve ortalı */
+@media (max-width: 768px) {
+  .container {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .logo,
+  .menu-links,
+  .user-info {
+    width: 100%;
+    justify-content: center !important;
+    margin: 10px 0;
+  }
+}
+
+
+/* Responsive: mobilde alt alta ve ortalı */
+
+
 
     .category-btn {
       background-color: #f44336;
       color: white;
       font-weight: bold;
       border: none;
-      padding: 10px 20px;
+      padding: 8px 15px;
       border-radius: 5px;
+      font-size: 14px;
+      margin-left: 30%;
     }
 
     .search-box input {
+      width: 60%;
       border-radius: 0;
       border-right: none;
+      margin-left: 30%;
     }
 
     .search-box button {
       border-radius: 0;
       background-color: #f44336;
       color: white;
+      border: none;
     }
 
     .cart-info {
       font-weight: bold;
       color: #f44336;
+      font-size: 14px;
     }
 
     .nav-menu {
       background-color: #252b32;
-      padding: 10px 5px;
       
     }
 
     .nav-menu .nav-link {
       color: white !important;
       font-weight: bold;
-      padding: 10px 30px;
-      margin-left: 5%;
+      padding: 10px 15px;
+      
+      
     }
 
     .nav-menu .nav-link:hover {
       background-color: #ff5722 !important;
+      
     }
+     
+    .kategori-menu {
+      display: block !important;
+      position: absolute;
+      
+      
+      width: 92%;
+      background-color: white;
+      border: 2px solid #ddd;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 1000;
+      margin-left: 28%;
+    }
+   
+
+    .kategori-menu a {
+      display: block;
+      padding: 8px 12px;
+      border-bottom: 1px solid #eee;
+      color: #333;
+      text-decoration: none;
+      font-size: 14px;
+
+    }
+
+    .kategori-menu a:hover {
+      background-color: #f9f9f9;
+    }
+    .kategori-menu > li {
+  position: relative;
+}
+
+.kategori-menu > li > a {
+  display: block;
+  padding: 8px 12px;
+  color: #333;
+  text-decoration: none;
+  border-bottom: 1px solid #ddd;
+}
+
+.kategori-menu > li:hover {
+  background: #f0f0f0;
+}
+
+/* Alt kategori menüsü gizli */
+.kategori-menu li ul {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  background: #fff;
+  border: 1px solid #ccc;
+  min-width: 180px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  z-index: 100;
+}
+
+/* Ana kategoriye hover yapıldığında alt menüyü göster */
+.kategori-menu li:hover > ul {
+  display: block;
+}
+
+.kategori-menu li ul li a {
+  padding: 8px 12px;
+  border-bottom: 1px solid #ddd;
+  color: #555;
+}
+
+.kategori-menu li ul li a:hover {
+  background: #eee;
+}
+   
+
+   
+    
+.boxx {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.boxx .col {
+  width: 24%; /* 4 ürün yan yana gelsin */
+  box-sizing: border-box;
+}
+ 
+.slider-with-buttons-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;          /* Swiper ile butonlar arası boşluk */
+  max-width: 900px;   /* İstersen toplam genişlik sınırı */
+  margin: 50px auto 0 auto; /* Üst boşluk + ortala */
+}
+
+/* Mevcut swiper stilin */
+.swiper {
+  flex: 2;               /* Genişlik oranı */
+  width: 600px;
+  height: 300px;
+  position: relative;
+  overflow: hidden;      /* Buton taşmasını engelle */
+}
+
+.swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Swiper butonları */
+.swiper-button-prev {
+  left: 10px;
+}
+
+.swiper-button-next {
+  right: 10px;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  border-radius: 50%;
+}
+
+/* Sağdaki butonlar kapsayıcısı */
+.right-buttons {
+  flex: 1;                 /* Genişlik oranı */
+  display: flex;
+  flex-direction: column;  /* Alt alta diz */
+  gap: 15px;               /* Aralarındaki boşluk */
+}
+
+/* Sağdaki buton resimleri */
+.right-buttons img {
+  width: 100%;
+  height: 145px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.right-buttons img:hover {
+  transform: scale(1.02);
+}
+    
   </style>
 </head>
 <body>
@@ -83,32 +326,109 @@
       <strong>OYUNCAKSTORE Hoşgeldiniz!</strong> Hafta sonuna özel kampanya → Kupon: <strong>STORE2023</strong>
     </div>
     <div>
-      🔐 <a href="#">Oturum Aç / Kayıt Ol</a> | ☎ 0 (536) 352 01 71 | 🔔 Türk Lirası
+     ₺ Türk Lirası
     </div>
   </div>
-<!-- Navbar Menü -->
-<nav class="nav-menu">
-    <div class="container d-flex flex-wrap">
-      <a href="#" class="nav-link">YAŞA GÖRE</a>
-      <a href="#" class="nav-link">MARKALAR</a>
-      <a href="#" class="nav-link">FİYATLAR</a>
-      <a href="#" class="nav-link text-danger">🆕 YENİ GELENLER</a>
-      <a href="#" class="nav-link text-info">🎁 FIRSATLAR</a>
+
+  <!-- Navbar Menü (Aramanın üstünde) -->
+  <nav class="nav-menu">
+    <div class="container d-flex  justify-content-start">
+      <!-- Logo (sol) -->
+      <div class="logo">
+        <a href="#"><img src="/Users/alimcanerdogdu/Desktop/oyuncakstore/logo.png" alt="Logo"></a>
+      </div>
+  
+      <!-- Menü linkleri (orta) -->
+      <div class="menu-links">
+        <a href="#" class="nav-link">YAŞA GÖRE</a>
+        <a href="#" class="nav-link">MARKALAR</a>
+        <a href="#" class="nav-link">FİYATLAR</a>
+        <a href="#" class="nav-link text-danger">🆕 YENİ GELENLER</a>
+        <a href="#" class="nav-link text-info">🎁 FIRSATLAR</a>
+      </div>
+  
+      <!-- Oturum Aç ve Telefon (sağ) -->
+      <div class="user-info">
+        <a href="#" style="color: white;">🔐 Oturum Aç ve Kayıt Ol</a>
+        <span style="color: white;">| ☎ 0 (536) 352 01 71 |</span>
+      </div>
     </div>
   </nav>
-  <!-- HEADER BÖLÜMÜ -->
+
+  <!-- Header Bölümü -->
   <div class="main-header container-fluid">
     <div class="row align-items-center">
-      <!-- Logo -->
-      <div class="col-lg-2 col-md-3 col-6 logo">
-        <a href="#"><img src="images/logo.png" alt="Logo"></a>
-      </div>
+     
 
       <!-- Tüm Kategoriler Butonu -->
-      <div class="col-lg-2 col-md-3 col-6 text-start">
+      <div class="col-lg-2 col-md-3 col-6 position-relative">
         <button class="category-btn w-100">☰ Tüm Kategoriler</button>
+        <ul class="kategori-menu">
+          <li>
+            <a href="#">Lisanslı Oyuncaklar</a>
+            <ul>
+              <li><a href="#">Alt Kategori 1</a></li>
+              <li><a href="#">Alt Kategori 2</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">0-3 Yaş Grubu</a>
+            <ul>
+              <li><a href="#">Alt Kategori A</a></li>
+              <li><a href="#">Alt Kategori B</a></li>
+            </ul>
+          </li>
+          <li><a href="#">Erkek Oyuncaklar</a>
+          
+            <ul>
+              <li><a href="#">Alt Kategori A</a></li>
+              <li><a href="#">Alt Kategori B</a></li>
+            </ul>
+          
+          </li>
+          
+          <li><a href="#">Kız Oyuncaklar</a>
+            <ul>
+              <li><a href="#">Alt Kategori A</a></li>
+              <li><a href="#">Alt Kategori B</a></li>
+            </ul>
+          </li>
+          <li><a href="#">Kız Oyuncaklar</a>
+            <ul>
+              <li><a href="#">Alt Kategori A</a></li>
+              <li><a href="#">Alt Kategori B</a></li>
+            </ul>
+          </li>
+          <li><a href="#">Kız Oyuncaklar</a>
+            <ul>
+              <li><a href="#">Alt Kategori A</a></li>
+              <li><a href="#">Alt Kategori B</a></li>
+            </ul>
+          </li>
+          <li><a href="#">Kız Oyuncaklar</a>
+            <ul>
+              <li><a href="#">Alt Kategori A</a></li>
+              <li><a href="#">Alt Kategori B</a></li>
+            </ul>
+          </li>
+          <li><a href="#">Kız Oyuncaklar</a>
+            <ul>
+              <li><a href="#">Alt Kategori A</a></li>
+              <li><a href="#">Alt Kategori B</a></li>
+            </ul>
+          </li>
+          <li><a href="#">Kız Oyuncaklar</a>
+            <ul>
+              <li><a href="#">Alt Kategori A</a></li>
+              <li><a href="#">Alt Kategori B</a></li>
+            </ul>
+          </li>
+        </ul>
       </div>
       
+
+      
+       
 
       <!-- Arama Kutusu -->
       <div class="col-lg-6 col-md-12 mt-2 mt-lg-0">
@@ -125,11 +445,183 @@
     </div>
   </div>
 
+  <div class="slider-with-buttons-container">
+
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide"><img src="img/oyuncakbanner.jpg" alt="Swiper 1"></div>
+        <div class="swiper-slide"><img src="img/oyuncakbanner.jpg" alt="Swiper 2"></div>
+        <div class="swiper-slide"><img src="img/oyuncakbanner.jpg" alt="Swiper 3"></div>
+      </div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div>
   
+    <div class="right-buttons">
+      <a href="#"><img src="/Users/alimcanerdogdu/Desktop/oyuncakstore/oyuncak.jpg" alt="Buton 1"></a>
+      <a href="#"><img src="/Users/alimcanerdogdu/Desktop/oyuncakstore/oyuncak.jpg" alt="Buton 2"></a>
+    </div>
+  
+  </div>
 
-  <!-- Kategori menüsü (gizli yapılabilir JS ile) -->
-  <!-- Devamında slider, ürünler, vs. gelebilir -->
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+    
+  </div>
+
+
+      
+  <!-- JS -->
+  <div class="container-fluid bg-trasparent my-4 p-3" style="float: left;">
+    <div class="boxx">
+      <div class="col">
+        <div class="card h-100 shadow-sm">
+          <img src="/Users/alimcanerdogdu/Desktop/oyuncakstore/oyuncak.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <div class="clearfix mb-3">
+              <span class="float-start badge rounded-pill bg-primary">BARBİE</span>
+              <span class="float-end price-hp">4999&#8378;</span>
+            </div>
+            <h5 class="card-title">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam quidem eaque ut eveniet aut quis rerum. Asperiores accusamus harum ducimus velit odit ut. Saepe, iste optio laudantium sed aliquam sequi.</h5>
+            <div class="text-center my-4">
+              <a href="#" class="btn btn-warning">Sepete Ekle</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="col">
+        <div class="card h-100 shadow-sm">
+          <img src="/Users/alimcanerdogdu/Desktop/oyuncakstore/oyuncak.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <div class="clearfix mb-3">
+              <span class="float-start badge rounded-pill bg-primary">BARBİE</span>
+              <span class="float-end price-hp">4999&#8378;</span>
+            </div>
+            <h5 class="card-title">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam quidem eaque ut eveniet aut quis rerum. Asperiores accusamus harum ducimus velit odit ut. Saepe, iste optio laudantium sed aliquam sequi.</h5>
+            <div class="text-center my-4">
+              <a href="#" class="btn btn-warning">Sepete Ekle</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="col"> 
+        <div class="card h-100 shadow-sm">
+          <img src="/Users/alimcanerdogdu/Desktop/oyuncakstore/oyuncak.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <div class="clearfix mb-3">
+              <span class="float-start badge rounded-pill bg-primary">BARBİE</span>
+              <span class="float-end price-hp">4999&#8378;</span>
+            </div>
+            <h5 class="card-title">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam quidem eaque ut eveniet aut quis rerum. Asperiores accusamus harum ducimus velit odit ut. Saepe, iste optio laudantium sed aliquam sequi.</h5>
+            <div class="text-center my-4">
+              <a href="#" class="btn btn-warning">Sepete Ekle</a>
+            </div>
+          </div>
+        </div>
+      </div>
+              
+               
+    <div class="col">
+        <div class="card h-100 shadow-sm">
+          <img src="/Users/alimcanerdogdu/Desktop/oyuncakstore/oyuncak.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <div class="clearfix mb-3">
+              <span class="float-start badge rounded-pill bg-primary">BARBİE</span>
+              <span class="float-end price-hp">4999&#8378;</span>
+            </div>
+            <h5 class="card-title">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam quidem eaque ut eveniet aut quis rerum. Asperiores accusamus harum ducimus velit odit ut. Saepe, iste optio laudantium sed aliquam sequi.</h5>
+            <div class="text-center my-4">
+              <a href="#" class="btn btn-warning">Sepete Ekle</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="col">
+        <div class="card h-100 shadow-sm">
+          <img src="/Users/alimcanerdogdu/Desktop/oyuncakstore/oyuncak.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <div class="clearfix mb-3">
+              <span class="float-start badge rounded-pill bg-primary">BARBİE</span>
+              <span class="float-end price-hp">4999&#8378;</span>
+            </div>
+            <h5 class="card-title">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam quidem eaque ut eveniet aut quis rerum. Asperiores accusamus harum ducimus velit odit ut. Saepe, iste optio laudantium sed aliquam sequi.</h5>
+            <div class="text-center my-4">
+              <a href="#" class="btn btn-warning">Sepete Ekle</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="col">
+        <div class="card h-100 shadow-sm">
+          <img src="/Users/alimcanerdogdu/Desktop/oyuncakstore/oyuncak.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <div class="clearfix mb-3">
+              <span class="float-start badge rounded-pill bg-primary">BARBİE</span>
+              <span class="float-end price-hp">4999&#8378;</span>
+            </div>
+            <h5 class="card-title">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam quidem eaque ut eveniet aut quis rerum. Asperiores accusamus harum ducimus velit odit ut. Saepe, iste optio laudantium sed aliquam sequi.</h5>
+            <div class="text-center my-4">
+              <a href="#" class="btn btn-warning">Sepete Ekle</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="col">
+        <div class="card h-100 shadow-sm">
+          <img src="/Users/alimcanerdogdu/Desktop/oyuncakstore/oyuncak.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <div class="clearfix mb-3">
+              <span class="float-start badge rounded-pill bg-primary">BARBİE</span>
+              <span class="float-end price-hp">4999&#8378;</span>
+            </div>
+            <h5 class="card-title">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam quidem eaque ut eveniet aut quis rerum. Asperiores accusamus harum ducimus velit odit ut. Saepe, iste optio laudantium sed aliquam sequi.</h5>
+            <div class="text-center my-4">
+              <a href="#" class="btn btn-warning">Sepete Ekle</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="col">
+        <div class="card h-100 shadow-sm">
+          <img src="/Users/alimcanerdogdu/Desktop/oyuncakstore/oyuncak.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <div class="clearfix mb-3">
+              <span class="float-start badge rounded-pill bg-primary">BARBİE</span>
+              <span class="float-end price-hp">4999&#8378;</span>
+            </div>
+            <h5 class="card-title">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam quidem eaque ut eveniet aut quis rerum. Asperiores accusamus harum ducimus velit odit ut. Saepe, iste optio laudantium sed aliquam sequi.</h5>
+            <div class="text-center my-4">
+              <a href="#" class="btn btn-warning">Sepete Ekle</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      </main>	
+</div>	
+</div>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="oyuncaksite.js"></script>
+
+  <script>
+   
+
+     
+
+    function toggleKategori() {
+      const menu = document.getElementById("kategoriMenu");
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+
+    // Menü dışına tıklanınca kapanması için
+    document.addEventListener("click", function (e) {
+      const menu = document.getElementById("kategoriMenu");
+      const button = document.querySelector(".category-btn");
+      if (!menu.contains(e.target) && !button.contains(e.target)) {
+        menu.style.display = "none";
+      }
+    });
+  </script>
+
 </body>
 </html>
